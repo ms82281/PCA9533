@@ -31,32 +31,34 @@ __asm volatile ("nop");
 
 namespace Pca9533 {
     const byte DEV_ADDR         = 0x62;
-//    const byte NUM_BYTES        = 0x01;
-//    const byte ALL_INPUT        = 0xFF;
-//    const byte ALL_OUTPUT       = 0x00;
-    const byte ALL_LOW          = 0x00;
-    const byte ALL_HIGH         = 0xFF;
-//    const byte ALL_NON_INVERTED = 0x00;
-//    const byte ALL_INVERTED     = 0xFF;
     const byte COM_SUCCESS      = 0x00;
 
     typedef enum:byte {
-        REG_INPUT    = 0,      // default
-        REG_OUTPUT   = 1,
-        REG_POLARITY = 2,
-        REG_CONFIG   = 3
+        REG_INPUT   = 0x10,     // Default :: INPUT REGISTER
+        REG_PSC0    = 0x11,     // FREQUENCY PRESCALER 0
+        REG_PWM0    = 0x12,     // PWM REGISTER 0
+        REG_PSC1    = 0x13,     // FREQUENCY PRESCALER 1
+        REG_PWM1    = 0x14,     // PWM REGISTER 1
+        REG_LED     = 0x15      // LED SELECTOR
     } reg_ptr_t;
 
     typedef enum:byte {
+        LED_MODE_OFF  = 0,  // 00 - Output is set Hi-Z (LED off – default)
+        LED_MODE_ON   = 1,  // 01 - Output is set LOW (LED on)
+        LED_MODE_PWM0 = 2,  // 10 - Output blinks at PWM0 rate
+        LED_MODE_PWM1 = 3   // 11 - Output blinks at PWM1 rate
+    } led_out_mode_t;
+
+    typedef enum:byte {
         IO0 = 0,
-        IO1 = 1,
-        IO2 = 2,
-        IO3 = 3
+        IO1 = 2,
+        IO2 = 4,
+        IO3 = 6
     } pin_t;
 
     typedef enum:byte {
-        IO_OUTPUT = 0,
-        IO_INPUT  = 1
+        ALL_ON   = 0x55,
+        ALL_OFF  = 0x00
     } mode_t;
 
     typedef enum:byte {
@@ -65,20 +67,31 @@ namespace Pca9533 {
     } state_t;
 
     typedef enum:byte {
-        IO_NON_INVERTED = 0,
-        IO_INVERTED     = 1
-    } polarity_t;
+        IO_PWM0  = 0x12,
+        IO_PWM1  = 0x14
+    } pwm_t;
 
+   
+    
     class PCA9533 {
          public:
             PCA9533();
             ~PCA9533();
+            byte port_setting = B00001110;
             byte ping();
-            void endCall();
+            bool init();
+            void setMode(pin_t pin, led_out_mode_t newMode);
+            void setMode(mode_t newMode);
+            void setPWM(reg_ptr_t pwmPort, int pwmValue);
+            void setPSC(reg_ptr_t pscPort, int pscValue);
+         private:
+            byte _comBuffer;
+            void setReg(reg_ptr_t ptr, byte newSetting);
+            void initCall(reg_ptr_t regPtr);
+            void endCall();            
     };
 }
 
 using namespace Pca9533;
 
 #endif
-
