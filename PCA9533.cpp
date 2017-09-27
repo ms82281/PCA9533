@@ -1,3 +1,20 @@
+/*
+  PCA9533 - Library for esp8266
+  Copyright (c) 2017 Max Schmid. All rights reserved.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
 #if 1
 __asm volatile ("nop");
 #endif
@@ -6,7 +23,6 @@ __asm volatile ("nop");
 
 //    CONSTRUCTOR
 PCA9533::PCA9533() {
-//    _comBuffer = ping();
 }
 
 //    DESTRUCTOR
@@ -42,7 +58,7 @@ void PCA9533::initCall(reg_ptr_t regPtr) {
     Wire.write(regPtr);
 }
 
-//    SET MODE - Requires pin and mode to set. See header for details
+//    SET MODE - Requires pin and mode to set.
 // 	  Parameters IOx & LED_MODE_x (See header file)
 void PCA9533::setMode(pin_t pin, led_out_mode_t newMode) {
     byte bit_mask;
