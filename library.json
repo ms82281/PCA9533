@@ -1,0 +1,22 @@
+{
+		"name": "PCA9533",
+		"frameworks": "arduino",
+		"platforms": [
+        	"atmelavr",
+        	"espressif"
+    	],
+		"keywords": "PCA9533, GPIO, I2C, 4-BIT, DIMMER",
+		"description": "PCA9533 Driver (4-Channel GPIO I2C Dimmer)",
+		"url": "https://github.com/ms82281/PCA9533",
+		"downloadUrl": "https://github.com/ms82281/PCA9533/archive/master.zip",
+		"authors":
+		{
+		        "name": "Max Schmid",
+		        "maintainer": true
+		},
+		"repository":
+		{
+		    "type": "git",
+		    "url": "https://github.com/ms82281/PCA9533"
+		}
+}
